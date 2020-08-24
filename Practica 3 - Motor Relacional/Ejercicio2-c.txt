@@ -1,0 +1,319 @@
+EJERCICIO 2 - Consultas en SQL joins
+
+1-
+world=# select country.name, countrylanguage.language from country inner join countrylanguage on countrylanguage.countrycode = country.code where country.continent = 'Oceania';
+                 name                 |       language       
+--------------------------------------+----------------------
+ American Samoa                       | Samoan
+ Australia                            | English
+ Cook Islands                         | Maori
+ Fiji Islands                         | Fijian
+ Guam                                 | English
+ Christmas Island                     | Chinese
+ Kiribati                             | Kiribati
+ Cocos (Keeling) Islands              | Malay
+ Marshall Islands                     | Marshallese
+ Micronesia, Federated States of      | Trukese
+ Nauru                                | Nauru
+ Niue                                 | Niue
+ Norfolk Island                       | English
+ Palau                                | Palau
+ Papua New Guinea                     | Papuan Languages
+ Pitcairn                             | Pitcairnese
+ Northern Mariana Islands             | Philippene Languages
+ French Polynesia                     | Tahitian
+ Solomon Islands                      | Malenasian Languages
+ Samoa                                | Samoan-English
+ Tokelau                              | Tokelau
+ Tonga                                | Tongan
+ Tuvalu                               | Tuvalu
+ New Caledonia                        | Malenasian Languages
+ New Zealand                          | English
+ Wallis and Futuna                    | Wallis
+ Vanuatu                              | Bislama
+ United States Minor Outlying Islands | English
+ American Samoa                       | English
+ Australia                            | Italian
+ Cook Islands                         | English
+ Fiji Islands                         | Hindi
+ Guam                                 | Chamorro
+ Christmas Island                     | English
+ Kiribati                             | Tuvalu
+ Cocos (Keeling) Islands              | English
+ Marshall Islands                     | English
+ Micronesia, Federated States of      | Pohnpei
+ Nauru                                | Kiribati
+ Niue                                 | English
+ Palau                                | Philippene Languages
+ Papua New Guinea                     | Malenasian Languages
+ Northern Mariana Islands             | Chamorro
+ French Polynesia                     | French
+ Solomon Islands                      | Papuan Languages
+ Samoa                                | Samoan
+ Tokelau                              | English
+ Tonga                                | English
+ Tuvalu                               | Kiribati
+ New Caledonia                        | French
+ New Zealand                          | Maori
+ Wallis and Futuna                    | Futuna
+ Vanuatu                              | English
+ American Samoa                       | Tongan
+ Australia                            | Greek
+ Guam                                 | Philippene Languages
+ Micronesia, Federated States of      | Mortlock
+ Nauru                                | Chinese
+ Palau                                | English
+ Northern Mariana Islands             | Chinese
+ French Polynesia                     | Chinese
+ Solomon Islands                      | Polynesian Languages
+ Samoa                                | English
+ Tuvalu                               | English
+ New Caledonia                        | Polynesian Languages
+ Vanuatu                              | French
+ Australia                            | Canton Chinese
+ Guam                                 | Korean
+ Micronesia, Federated States of      | Kosrean
+ Nauru                                | Tuvalu
+ Palau                                | Chinese
+ Northern Mariana Islands             | Korean
+ Australia                            | Arabic
+ Guam                                 | Japanese
+ Micronesia, Federated States of      | Yap
+ Nauru                                | English
+ Northern Mariana Islands             | English
+ Australia                            | Vietnamese
+ Micronesia, Federated States of      | Wolea
+ Northern Mariana Islands             | Carolinian
+ Australia                            | Serbo-Croatian
+ Australia                            | German
+(82 rows)
+
+2-
+
+world=# select country.name, count(countrylanguage.language) from country inner join countrylanguage on countrylanguage.countrycode = country.code group by country.name having count(countrylanguage.language) > 1 order by count(countrylanguage.language) desc;
+                 name                  | count 
+---------------------------------------+-------
+ India                                 |    12
+ China                                 |    12
+ Canada                                |    12
+ United States                         |    12
+ Russian Federation                    |    12
+ South Africa                          |    11
+ Tanzania                              |    11
+ Congo, The Democratic Republic of the |    10
+ Sudan                                 |    10
+ Iran                                  |    10
+ Kenya                                 |    10
+ Philippines                           |    10
+ Mozambique                            |    10
+ Uganda                                |    10
+ Nigeria                               |    10
+ Vietnam                               |     9
+ Angola                                |     9
+ Indonesia                             |     9
+ Togo                                  |     8
+ Sierra Leone                          |     8
+ Czech Republic                        |     8
+ Myanmar                               |     8
+ Liberia                               |     8
+ Pakistan                              |     8
+ Australia                             |     8
+ Chad                                  |     8
+ Austria                               |     8
+ Namibia                               |     8
+ Cameroon                              |     8
+ Italy                                 |     8
+ Ukraine                               |     7
+ Kyrgyzstan                            |     7
+ Nepal                                 |     7
+ Benin                                 |     7
+ Guinea                                |     7
+ Ethiopia                              |     7
+ Bangladesh                            |     7
+ Denmark                               |     7
+ Mali                                  |     6
+ Uzbekistan                            |     6
+ Mexico                                |     6
+ Guinea-Bissau                         |     6
+ Romania                               |     6
+ Latvia                                |     6
+ Hungary                               |     6
+ Northern Mariana Islands              |     6
+ Micronesia, Federated States of       |     6
+ Malaysia                              |     6
+ Zambia                                |     6
+ Mauritania                            |     6
+ Mongolia                              |     6
+ Kazakstan                             |     6
+ Central African Republic              |     6
+ Congo                                 |     6
+ Georgia                               |     6
+ Belgium                               |     6
+ Thailand                              |     6
+ Burkina Faso                          |     6
+ Germany                               |     6
+ Eritrea                               |     6
+ Taiwan                                |     6
+ Mauritius                             |     6
+ Sweden                                |     6
+ Ghana                                 |     6
+ Yugoslavia                            |     6
+ Japan                                 |     6
+ Senegal                               |     6
+ Panama                                |     6
+ France                                |     6
+ Hong Kong                             |     5
+ Slovakia                              |     5
+ Niger                                 |     5
+ Côte d\u0092Ivoire                    |     5
+ Moldova                               |     5
+ Finland                               |     5
+ Botswana                              |     5
+ Macedonia                             |     5
+ Iraq                                  |     5
+ Nauru                                 |     5
+ Réunion                               |     5
+ Norway                                |     5
+ Colombia                              |     5
+ Brazil                                |     5
+ Guatemala                             |     5
+ Lithuania                             |     5
+ Comoros                               |     5
+ Gambia                                |     5
+ Afghanistan                           |     5
+ Estonia                               |     5
+ Luxembourg                            |     5
+ Guam                                  |     5
+ Andorra                               |     4
+ Cambodia                              |     4
+ Laos                                  |     4
+ Gabon                                 |     4
+ Monaco                                |     4
+ Azerbaijan                            |     4
+ Chile                                 |     4
+ Macao                                 |     4
+ Bolivia                               |     4
+ Poland                                |     4
+ Brunei                                |     4
+ Zimbabwe                              |     4
+ Belarus                               |     4
+ Netherlands                           |     4
+ Paraguay                              |     4
+ Spain                                 |     4
+ Malawi                                |     4
+ Palau                                 |     4
+ Switzerland                           |     4
+ Honduras                              |     4
+ Belize                                |     4
+ Bulgaria                              |     4
+ Turkmenistan                          |     4
+ Aruba                                 |     4
+ Nicaragua                             |     4
+ Costa Rica                            |     4
+ Seychelles                            |     3
+ Mayotte                               |     3
+ Burundi                               |     3
+ Argentina                             |     3
+ Liechtenstein                         |     3
+ Lesotho                               |     3
+ Bhutan                                |     3
+ United Kingdom                        |     3
+ Albania                               |     3
+ Vanuatu                               |     3
+ Singapore                             |     3
+ French Polynesia                      |     3
+ Samoa                                 |     3
+ Peru                                  |     3
+ Slovenia                              |     3
+ Turkey                                |     3
+ Virgin Islands, U.S.                  |     3
+ Lebanon                               |     3
+ Solomon Islands                       |     3
+ New Caledonia                         |     3
+ Guyana                                |     3
+ Jordan                                |     3
+ Djibouti                              |     3
+ Tajikistan                            |     3
+ Sri Lanka                             |     3
+ American Samoa                        |     3
+ Trinidad and Tobago                   |     3
+ Tuvalu                                |     3
+ Netherlands Antilles                  |     3
+ Israel                                |     3
+ Venezuela                             |     3
+ Tunisia                               |     3
+ Bahamas                               |     2
+ Yemen                                 |     2
+ Wallis and Futuna                     |     2
+ Dominica                              |     2
+ Martinique                            |     2
+ Qatar                                 |     2
+ Armenia                               |     2
+ Guadeloupe                            |     2
+ Cyprus                                |     2
+ Kuwait                                |     2
+ Maldives                              |     2
+ Cape Verde                            |     2
+ Haiti                                 |     2
+ Gibraltar                             |     2
+ Algeria                               |     2
+ North Korea                           |     2
+ Sao Tome and Principe                 |     2
+ Malta                                 |     2
+ Ireland                               |     2
+ Equatorial Guinea                     |     2
+ Croatia                               |     2
+ Libyan Arab Jamahiriya                |     2
+ Kiribati                              |     2
+ French Guiana                         |     2
+ Christmas Island                      |     2
+ Papua New Guinea                      |     2
+ Morocco                               |     2
+ East Timor                            |     2
+ Swaziland                             |     2
+ Fiji Islands                          |     2
+ Tokelau                               |     2
+ Puerto Rico                           |     2
+ Ecuador                               |     2
+ Syria                                 |     2
+ New Zealand                           |     2
+ Jamaica                               |     2
+ Iceland                               |     2
+ Madagascar                            |     2
+ Suriname                              |     2
+ Saint Kitts and Nevis                 |     2
+ Egypt                                 |     2
+ Greece                                |     2
+ Rwanda                                |     2
+ Cocos (Keeling) Islands               |     2
+ Antigua and Barbuda                   |     2
+ Cook Islands                          |     2
+ Saint Lucia                           |     2
+ Somalia                               |     2
+ Tonga                                 |     2
+ Dominican Republic                    |     2
+ Marshall Islands                      |     2
+ Saint Vincent and the Grenadines      |     2
+ Bahrain                               |     2
+ Palestine                             |     2
+ Barbados                              |     2
+ Niue                                  |     2
+ El Salvador                           |     2
+ Faroe Islands                         |     2
+ Oman                                  |     2
+ United Arab Emirates                  |     2
+ Greenland                             |     2
+ South Korea                           |     2
+ Svalbard and Jan Mayen                |     2
+(212 rows)
+
+3-
+world=# select countrylanguage.language from countrylanguage inner join country on countrylanguage.countrycode = country.code where continent =(select continent from country where continent not like 'Antarctica' group  by continent order by avg(gnp) limit 1);
+
+
+4- 
+world=# select country.name, country.population, sum(city.population) as population_city, (sum(city.population) * 100 / country.population) as percentage from country inner join city on city.countrycode = country.code group by country.name, country.population;
+
+
+
+

@@ -1,0 +1,7 @@
+MAPA
+
+Paises que no aparecen en el mapa debido a que no se encuentran 
+en la base de datos.
+
+Sudan Sur - Africa
+Serbia y Montenegro - Europa

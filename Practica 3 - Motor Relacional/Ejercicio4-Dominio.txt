@@ -1,0 +1,20 @@
+DOMINIOS
+Nombramos algunos de los paises que no se encuentran en la tabla Country.
+
+.eu Unión Europea
+.me Montenegro
+.rs Serbia
+.gg Guernsey
+.ac Isla Ascensión
+
+En la siguiente funcion tuvimos en cuenta que todos los dominios que al finalizar su carga no tenian pais se lo asignamos a Estados Unidos.
+Encontramos que Gran Bretaña tiene como codigo '.uk', y en la tabla Country se encontraba como 'GB'. Solo consideramos este caso, pero pueden haber mas.
+
+def cargaCodigo(diccionario):
+	df1.loc[df1['pais'].isnull(), 'codigo'] = 'USA'
+	df1.loc[df1['pais'] == 'uk', 'codigo'] = 'GBR'
+		
+	for key in diccionario:
+		df1.loc[df1['pais'] == key, 'codigo'] = diccionario.get(key)
+
+Por razones como estas, en el ejercicio 6-c hay varios paises que se encuentran en blanco.

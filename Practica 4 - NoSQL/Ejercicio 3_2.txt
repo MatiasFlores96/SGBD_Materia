@@ -1,0 +1,122 @@
+EJERCICIO 3_2
+
+1)
+//En base al campo “source”, determinar la cantidad de usuarios que hay por cada canal.
+
+> db.tweets.mapReduce(function() { emit(this.source,1); },function(key, values) {return Array.sum(values)}, {out:"final"})
+{
+	"result" : "final",
+	"timeMillis" : 609,
+	"counts" : {
+		"input" : 5000,
+		"emit" : 5000,
+		"reduce" : 245,
+		"output" : 71
+	},
+	"ok" : 1
+}
+> db.tweets.mapReduce(function() { emit(this.source,1); },function(key, values) {return Array.sum(values)}, {out:"final"}).find()
+{ "_id" : "<a href=\"http://allafrica.com/\" rel=\"nofollow\">allAfrica.com</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://bancaynegocios.com/\" rel=\"nofollow\">BancayNegocios.com</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://cinchtweet.com/home/\" rel=\"nofollow\">CinchTweet-dev</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://class987fm.com\" rel=\"nofollow\">APP NEXTCRIPS</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://construyenpais.com\" rel=\"nofollow\">ConstruyenPais.com</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://discontents.com.au/trovenewsbot\" rel=\"nofollow\">TroveNewsBot</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://dynamicsignal.com/\" rel=\"nofollow\">Dynamic Signal</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://finzine.com\" rel=\"nofollow\">Finzine</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://hdvix.com\" rel=\"nofollow\">hdvix</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://instagram.com\" rel=\"nofollow\">Instagram</a>", "value" : 4 }
+{ "_id" : "<a href=\"http://khalilhumam.com\" rel=\"nofollow\">KhalilHumam.com</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://publicize.wp.com/\" rel=\"nofollow\">WordPress.com</a>", "value" : 9 }
+{ "_id" : "<a href=\"http://snappytv.com\" rel=\"nofollow\">SnappyTV.com</a>", "value" : 2 }
+{ "_id" : "<a href=\"http://stopmadness.com/\" rel=\"nofollow\">StopMadness2</a>", "value" : 1 }
+{ "_id" : "<a href=\"http://tapbots.com/tweetbot\" rel=\"nofollow\">Tweetbot for iΟS</a>", "value" : 5 }
+{ "_id" : "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", "value" : 818 }
+{ "_id" : "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>", "value" : 178 }
+{ "_id" : "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", "value" : 2119 }
+{ "_id" : "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", "value" : 1316 }
+{ "_id" : "<a href=\"http://watsupamericas.com\" rel=\"nofollow\">WatsupAmericas</a>", "value" : 1 }
+Type "it" for more
+
+2)
+//Determinar la cantidad de tweets por cada lenguaje
+
+> db.tweets.mapReduce(function() { emit(this.lang,1); },function(key, values) {return Array.sum(values)}, {out:"final"})
+{
+	"result" : "final",
+	"timeMillis" : 567,
+	"counts" : {
+		"input" : 5000,
+		"emit" : 5000,
+		"reduce" : 163,
+		"output" : 18
+	},
+	"ok" : 1
+}
+> db.tweets.mapReduce(function() { emit(this.lang,1); },function(key, values) {return Array.sum(values)}, {out:"final"}).find()
+
+{ "_id" : "ar", "value" : 3 }
+{ "_id" : "ca", "value" : 2 }
+{ "_id" : "de", "value" : 2 }
+{ "_id" : "en", "value" : 2448 }
+{ "_id" : "es", "value" : 2389 }
+{ "_id" : "et", "value" : 1 }
+{ "_id" : "fr", "value" : 25 }
+{ "_id" : "hi", "value" : 1 }
+{ "_id" : "ht", "value" : 1 }
+{ "_id" : "in", "value" : 2 }
+{ "_id" : "it", "value" : 5 }
+{ "_id" : "ja", "value" : 4 }
+{ "_id" : "nl", "value" : 8 }
+{ "_id" : "pl", "value" : 1 }
+{ "_id" : "th", "value" : 36 }
+{ "_id" : "tl", "value" : 2 }
+{ "_id" : "tr", "value" : 1 }
+{ "_id" : "und", "value" : 69 }
+
+3)
+//Clasificar los textos de los tweets en corto (< 10 palabras), mediano (>= 10, < 20 palabras) y largo (>= 20 pala-
+bras). Devolver la cantidad de tweets en cada una de las clases.
+
+//Este devuelve el texto con su cantidad de palabras y y si es corto o largo
+>db.tweets.mapReduce(function() { var text = this.text;
+wordArray = text.split(new RegExp(/[.,\/ -]/)); 
+if(wordArray.length < 10){ leng = "corto"};
+if(wordArray.length >= 10 && wordArray.length < 20){ leng = "mediano"};
+if(wordArray.length >= 20){ leng = "largo"};
+emit(text,[wordArray.length, leng]); }, function(key, values) {return Array.sum(values)}, {out:"final"}).find() 
+
+{ "_id" : "!", "value" : "1,corto1,corto" }
+{ "_id" : "!!", "value" : [ 1, "corto" ] }
+{ "_id" : "!! Desbordado!! Caricuao en atención al llamado de @jguaido. El hambre y la creciente crisis le quitaron el miedo a… https://t.co/jLEmyPKL7N", "value" : [ 26, "largo" ] }
+{ "_id" : "!!! Attention Detroit folks ♥️✊", "value" : [ 5, "corto" ] }
+{ "_id" : "!!!!", "value" : [ 1, "corto" ] }
+{ "_id" : "!!!!! He's absolutely going for it. ERNIE VALVERDE FROM THE TOP ROPE! (or maybe he hit a mid-life crisis at the wor… https://t.co/UxzuDulsav", "value" : [ 29, "largo" ] }
+{ "_id" : "!!!🌍🌎🌏", "value" : [ 1, "corto" ] }
+{ "_id" : "!!COMO PATOTEROS SON BUENOS PERO SOLOS SON UNOS CAPADOS? LES PASO UN DATO VENEZUELA NO ESTA EN CRISIS LA CRISIS LA… https://t.co/Tc45WRv9zl", "value" : [ 26, "largo" ] }
+{ "_id" : "!Tal cual, es intolerante!\n👀 Ojo 👀 ciudadanos Guatemaltecos y organismos\nInternacionales, qué no sabiendo de leyes… https://t.co/G3cBXXd6Di", "value" : [ 22, "largo" ] }
+{ "_id" : "\" Instead of exposing a toxic water and social crisis, more than anything else, it ends up exposing a toxic identit… https://t.co/uhKzfdg2p9", "value" : [ 28, "largo" ] }
+{ "_id" : "\" There has never been a recorded case of type 2 addiction developing in a chronic pain patient already on opiates.… https://t.co/iQCuGAKwDa", "value" : [ 27, "largo" ] }
+{ "_id" : "\"\"It is soul-killing. A whole new leadership crisis has engulfed the city. But, despite the current drama in City H… https://t.co/b91x4TS1Em", "value" : [ 29, "largo" ] }
+{ "_id" : "\"#Harmreduction interventions that deal with #stigma &amp; #discrimination of those who use &amp; inject drugs are an impor… https://t.co/dFOnwUZPkQ", "value" : [ 23, "largo" ] }
+{ "_id" : "\"#US has artificially provoked a crisis in [#Venezuela] in order to overthrow a legitimately elected leader and rep… https://t.co/IHNZLAy1AN", "value" : [ 23, "largo" ] }
+{ "_id" : "\"#Venezuela está sumida en la crisis humanitaria más grave de su historia, tiene serias consecuencias en todo el co… https://t.co/s9Br234UPc", "value" : [ 25, "largo" ] }
+{ "_id" : "\"#WhiteHouse News: Remarks by Vice President #Pence at a Special Session of the United Nations Security Council on… https://t.co/fWqDo82Jyi", "value" : [ 23, "largo" ] }
+{ "_id" : "\"#WorldNews Story: AOC to Bank Execs: Should More Have Gone to Jail for Financial Crisis? #News\": https://t.co/Tou358H2ja", "value" : [ 21, "largo" ] }
+{ "_id" : "\"...and thousands of children without enough food. U.N. Refugee High Commissioner Filippo Grande told the Council o… https://t.co/7Y9NAjObNa", "value" : [ 28, "largo" ] }
+{ "_id" : "\"...by traditional means,\" yup, i feel ya\n\nWhat is America's oldest tradition, if not REVOLUTION ?", "value" : [ 21, "largo" ] }
+{ "_id" : "\"...it might help reclaim the very purpose of housing - as the basis for community, and a foundation for human flou… https://t.co/Hq1UwgCr4q", "value" : [ 31, "largo" ] }
+
+
+
+//Este devuelve la cantidad de tweets cortos, medianos y largos que hay.
+
+>db.tweets.mapReduce(function() { var text = this.text; wordArray = text.split(new RegExp(/[.,\/ -]/));  if(wordArray.length < 10){ leng = "corto"}; if(wordArray.length >= 10 && wordArray.length < 20){ leng = "mediano"}; if(wordArray.length >= 20){ leng = "largo"}; emit(leng, 1); }, function(key, values) {return Array.sum(values)}, {out:"final"}).find()
+
+{ "_id" : "corto", "value" : 6185 }
+{ "_id" : "largo", "value" : 112677 }
+{ "_id" : "mediano", "value" : 19627 }
+
+
+
+

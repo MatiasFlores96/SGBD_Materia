@@ -1,0 +1,87 @@
+EJERCICIO 2 - Consultas en SQL subqueries
+
+1-
+world=# select name , lifeexpectancy from country where lifeexpectancy = (select min (lifeexpectancy) from country);
+  name  | lifeexpectancy 
+--------+----------------
+ Zambia |           37.2
+(1 row)
+
+La siguiente consulta devuelve el nombre del pais y la expectativa de vida del pais con menor expectativa de vida
+
+2-
+world=# select name , lifeexpectancy from country where lifeexpectancy = (select min (lifeexpectancy) from country) or lifeexpectancy = (select max (lifeexpectancy) from country);
+  name   | lifeexpectancy 
+---------+----------------
+ Andorra |           83.5
+ Zambia  |           37.2
+(2 rows)
+
+3-
+world=# select name, indepyear from country where continent = (select continent from country where indepyear = (select min (indepyear) from country));
+         name         | indepyear 
+----------------------+-----------
+ Afghanistan          |      1919
+ United Arab Emirates |      1971
+ Armenia              |      1991
+ Azerbaijan           |      1991
+ Bahrain              |      1971
+ Bangladesh           |      1971
+ Bhutan               |      1910
+ Brunei               |      1984
+ Philippines          |      1946
+ Georgia              |      1991
+ Hong Kong            |          
+ Indonesia            |      1945
+ India                |      1947
+ Iraq                 |      1932
+ Iran                 |      1906
+ Israel               |      1948
+ East Timor           |          
+ Japan                |      -660
+ Yemen                |      1918
+ Jordan               |      1946
+ Cambodia             |      1953
+ Kazakstan            |      1991
+ China                |     -1523
+ Kyrgyzstan           |      1991
+ North Korea          |      1948
+ South Korea          |      1948
+ Kuwait               |      1961
+ Cyprus               |      1960
+ Laos                 |      1953
+ Lebanon              |      1941
+ Macao                |          
+ Maldives             |      1965
+ Malaysia             |      1957
+ Mongolia             |      1921
+ Myanmar              |      1948
+ Nepal                |      1769
+ Oman                 |      1951
+ Pakistan             |      1947
+ Qatar                |      1971
+ Saudi Arabia         |      1932
+ Singapore            |      1965
+ Sri Lanka            |      1948
+ Syria                |      1941
+ Tajikistan           |      1991
+ Taiwan               |      1945
+ Thailand             |      1350
+ Turkey               |      1923
+ Turkmenistan         |      1991
+ Uzbekistan           |      1991
+ Vietnam              |      1945
+ Palestine            |          
+(51 rows)
+
+4-
+world=# select distinct continent from country where continent in  (select continent from country group by continent order by sum(gnp) desc limit 4);
+   continent   
+---------------
+ Asia
+ South America
+ North America
+ Europe
+(4 rows)
+
+

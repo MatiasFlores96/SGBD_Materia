@@ -1,0 +1,24 @@
+EJERCICIO 3
+
+world=# CREATE TABLE stats(
+    countrycode character(3) NOT NULL references country(code),
+    cant_lenguas integer,
+    pop_urbana integer NOT NULL,
+    PRIMARY KEY(countrycode)
+);
+CREATE TABLE
+
+world=# select * from stats;
+ countrycode | cant_lenguas | pop_urbana 
+-------------+--------------+------------
+(0 rows)
+
+
+world=# INSERT INTO stats (countrycode, pop_urbana) (SELECT country.code, sum(city.population) FROM country INNER JOIN city on country.code = city.countrycode GROUP BY country.code);
+INSERT 0 232
+
+world=# UPDATE stats 
+SET cant_lenguas = subquery.cant_language
+FROM (SELECT country.code as countrycode, count(countrylanguage.language) as cant_language FROM country INNER JOIN countrylanguage on countrylanguage.countrycode = country.code GROUP BY country.code) as subquery where stats.countrycode = subquery.countrycode;
+UPDATE 232
+

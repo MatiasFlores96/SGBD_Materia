@@ -1,0 +1,85 @@
+EJERCICIO 3_1
+
+1)
+//Seleccionar el id y texto de 10 documents
+
+> db.tweets.find({}, {id:1, text:1, _id:0}).limit(10)
+{ "id" : NumberLong("1116019536690544640"), "text" : "Costa de Marfil: Observamos con pena el estancamiento político e institucional.   Cuya repercusión en la crisis hum… https://t.co/kXKc5KHjPH" }
+{ "id" : NumberLong("1116019536988463104"), "text" : "RT @alcaldeledezma: As the former Mayor of Caracas, on behalf of millions of Venezuelans, I express our heartfelt gratitude to President @r…" }
+{ "id" : NumberLong("1116019539798646785"), "text" : "@CamilaFocareta Te vendo los mios. Tengo una crisis financiera. Tengo mas cosas." }
+{ "id" : NumberLong("1116019541795061766"), "text" : "RT @Volve10Riquelme: Racing es campeón cada vez que en Argentina hay una crisis económica" }
+{ "id" : NumberLong("1116019543539879937"), "text" : "#brexit  Remain MP's made sure they got a remain PM by making sure that the decision never went to Tory membership.… https://t.co/ZDihhnJdbp" }
+{ "id" : NumberLong("1116019542394920961"), "text" : "RT @elcosodelapizza: tengo que aprobar todas las materias, no engordar , hacer ejercicio, tener vida social y no tener ninguna crisis exist…" }
+{ "id" : NumberLong("1116019539840466949"), "text" : "RT @amoration: We now fail at both disaster response &amp; displacement policy with thousands of new homeless families adding to #exponential #…" }
+{ "id" : NumberLong("1116019547419623425"), "text" : "RT @Education4Libs: Alexandria Cowfart-Cortez says that climate change is driving the migrant crisis.\n\nWrong again, sweetie.\n\nThat would be…" }
+{ "id" : NumberLong("1116019544173240323"), "text" : "RT @Jenn198523: The Rio Grande Valley sector alone takes in 38% of all illegal immigration.\n\nThis BP agent says they're taking in MIGRANT S…" }
+{ "id" : NumberLong("1116019546387668992"), "text" : "RT @sunchick8: @LegoBen1 @NailiciS_4 @EW @Avengers @Breznican 1) Bullshit\n2) Existential identity crisis\n3) Her name is literally MARVEL \n4…" }
+
+2)
+//Seleccionar los lenguajes de los distintos tweets
+
+> db.tweets.distinct("lang")
+[
+	"es",
+	"en",
+	"th",
+	"und",
+	"fr",
+	"ja",
+	"ht",
+	"nl",
+	"it",
+	"ca",
+	"de",
+	"hi",
+	"pl",
+	"tl",
+	"tr",
+	"et",
+	"ar",
+	"in"
+]
+
+3)
+// Seleccionar el id, el nombre, la descripción y la cantidad de followers de aquellos usuarios que tengan más de 100000 followers
+
+> db.tweets.find({"user.followers_count":{$gt:100000}}, {"user.id":1, "user.name":1, "user.description":1,"user.followers_count":1, _id:0})
+
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "description" : "¡Tu portal de #noticias venezolano, donde encontrarás la información directa al grano!", "followers_count" : 1301390 } }
+{ "user" : { "id" : 213720520, "name" : "Radio La Red 102.1FM", "description" : "La Red 102.1 FM #ConectadosPorElDeporte #DesdeLasCanchasEc", "followers_count" : 150376 } }
+{ "user" : { "id" : 15007299, "name" : "El Nacional", "description" : "Te informamos sobre las noticias más recientes de Venezuela y el mundo ¡Tu opinión es importante! Síguenos en Instagram y Telegram como Elnacionalweb 📲", "followers_count" : 4756164 } }
+{ "user" : { "id" : 381515624, "name" : "TVVenezuela Noticias", "description" : "Cuenta oficial de @TV_Venezuela para informar lo que ocurre en Venezuela y el mundo. Sintonízanos en EEUU por Comcast, Spectrum, Sling, VIVOPlay y más.", "followers_count" : 259834 } }
+{ "user" : { "id" : 84613584, "name" : "AnimalPolitico.com", "description" : "Periodismo independiente con todo el rigor. El sitio de noticias de México es Animal Político.", "followers_count" : 2006679 } }
+{ "user" : { "id" : 549304456, "name" : "Tim Noakes", "description" : "Author, Emeritus Professor, runner, LCHF/Banting/CrossFit proponent. No longer registered medical doctor. Spreading scientific information, not medical advice.", "followers_count" : 125483 } }
+{ "user" : { "id" : 347627434, "name" : "Linda Suhler, PhD", "description" : "I support PRESIDENT Trump! America First Christian supports Family~Constitution~Capitalism~NRA~ Military~Police~Israel~ #Trump2020 *My views represent only me*", "followers_count" : 386687 } }
+{ "user" : { "id" : 64421909, "name" : "Democratwico", "description" : null, "followers_count" : 103945 } }
+{ "user" : { "id" : 22429979, "name" : "southpaw", "description" : "Writer, lawyer, Dodger fan, idealist, hater. nycsouthpaw18 at gmail. RTs = endorsement or scorn.", "followers_count" : 152054 } }
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "description" : "¡Tu portal de #noticias venezolano, donde encontrarás la información directa al grano!", "followers_count" : 1301391 } }
+{ "user" : { "id" : 15007299, "name" : "El Nacional", "description" : "Te informamos sobre las noticias más recientes de Venezuela y el mundo ¡Tu opinión es importante! Síguenos en Instagram y Telegram como Elnacionalweb 📲", "followers_count" : 4756164 } }
+{ "user" : { "id" : 16683014, "name" : "allAfrica.com", "description" : "News and information from the fast-changing continent. Also follow @allafricafrench & @AllAfricaSport.", "followers_count" : 372288 } }
+{ "user" : { "id" : 220742208, "name" : "Venezuela al Dia", "description" : null, "followers_count" : 1423039 } }
+{ "user" : { "id" : NumberLong("3267456386"), "name" : "The Columbia Bugle 🇺🇸", "description" : "Truthful & Conservative Political Commentary. Our hearts are in the trim! RT'd by @realDonaldTrump x2 (9/2/17) & @TedCruz (2/15/18) #BuildTheWall #DeportThemAll", "followers_count" : 102377 } }
+{ "user" : { "id" : 44628138, "name" : "Descifrado", "description" : "Medio especializado en información de finanzas, economía y negocios dirigido a ejecutivos de las empresas más prestigiosas de Venezuela.", "followers_count" : 181528 } }
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "description" : "¡Tu portal de #noticias venezolano, donde encontrarás la información directa al grano!", "followers_count" : 1301392 } }
+{ "user" : { "id" : 44628138, "name" : "Descifrado", "description" : "Medio especializado en información de finanzas, economía y negocios dirigido a ejecutivos de las empresas más prestigiosas de Venezuela.", "followers_count" : 181528 } }
+{ "user" : { "id" : 65728343, "name" : "CARLOS VECCHIO", "description" : "Embajador de Venezuela ante los EEUU. Con la obsesión de cambiar a Venezuela.", "followers_count" : 894463 } }
+{ "user" : { "id" : 44628138, "name" : "Descifrado", "description" : "Medio especializado en información de finanzas, economía y negocios dirigido a ejecutivos de las empresas más prestigiosas de Venezuela.", "followers_count" : 181528 } }
+{ "user" : { "id" : 4008771, "name" : "Greenpeace France", "description" : "Greenpeace a pour but de dénoncer les atteintes à l'environnement et d'apporter des solutions qui contribuent à la protection de l'environnement.", "followers_count" : 420342 } }
+Type "it" for more
+
+4)
+//Seleccionar el id, el nombre y la cantidad de followers de los 10 usuarios con más followers ordenado de manera
+descendente
+
+> db.tweets.find({"user.followers_count":{$gt:100000}}, {"user.id":1, "user.name":1, "user.followers_count":1, _id:0}).sort({"user.followers_count":-1}).limit(10)
+
+{ "user" : { "id" : 34713362, "name" : "Bloomberg", "followers_count" : 5272857 } }
+{ "user" : { "id" : 14834302, "name" : "El Espectador", "followers_count" : 4789126 } }
+{ "user" : { "id" : 15007299, "name" : "El Nacional", "followers_count" : 4756177 } }
+{ "user" : { "id" : 15007299, "name" : "El Nacional", "followers_count" : 4756164 } }
+{ "user" : { "id" : 15007299, "name" : "El Nacional", "followers_count" : 4756164 } }
+{ "user" : { "id" : 84613584, "name" : "AnimalPolitico.com", "followers_count" : 2006679 } }
+{ "user" : { "id" : 220742208, "name" : "Venezuela al Dia", "followers_count" : 1423039 } }
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "followers_count" : 1301404 } }
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "followers_count" : 1301404 } }
+{ "user" : { "id" : 171299971, "name" : "CaraotaDigital", "followers_count" : 1301404 } }

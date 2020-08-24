@@ -1,0 +1,18 @@
+Ejercicio 4
+
+world=# CREATE TABLE sitio (
+   id integer NOT NULL,
+   entidad text NOT NULL,
+   tipo_entidad text NOT NULL,
+   pais text NOT NULL,
+   countrycode character(3) NOT NULL references country(code),
+   PRIMARY KEY(id)
+);
+CREATE TABLE
+
+world=# select * from sitio;
+ id | entidad | tipo_entidad | pais | countrycode 
+----+---------+--------------+------+-------------
+(0 rows)
+
+

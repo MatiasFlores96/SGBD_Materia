@@ -1,0 +1,88 @@
+EJERCICIO 5
+
+1-
+Esta consulta devuelve dos tablas, en la primera por cada entidad que empiece con 'a' en la primera tabla devuelve en la segunda todas las entidades que empiecen con 'b' del mismo pais. Se limita a mostrar los primeros 100 valores.
+
+world=# select * from sitio s1, sitio s2 where s1.countrycode = s2.countrycode and s1.entidad like 'a%' and s2.entidad like 'b%' limit 100;
+
+id |  entidad   | tipo_entidad | pais | countrycode |  id  |     entidad      | tipo_entidad | pais | countrycode 
+----+------------+--------------+------+-------------+------+------------------+--------------+------+-------------
+  6 | amazon     | com          | NaN  | USA         |    4 | baidu            | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   15 | bing             | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   46 | blogspot         | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   60 | blogger          | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   76 | bongacams        | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   83 | bilibili         | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |   96 | booking          | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  122 | bbc              | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  138 | bankofamerica    | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  152 | buzzfeed         | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  206 | bet365           | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  208 | blastingnews     | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  233 | babytree         | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  245 | bestbuy          | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  250 | blkget           | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  272 | bitauto          | com          | NaN  | USA
+  6 | amazon     | com          | NaN  | USA         |  291 | battle           | net          | NaN  | USA
+
+2-
+world=# explain select * from sitio s1, sitio s2 where s1.countrycode = s2.countrycode and s1.entidad like 'a%' and s2.entidad like 'b%' limit 100;
+                                  QUERY PLAN                                  
+------------------------------------------------------------------------------
+ Limit  (cost=0.00..4.13 rows=100 width=44)
+   ->  Nested Loop  (cost=0.00..271.25 rows=6564 width=44)
+         Join Filter: (s1.countrycode = s2.countrycode)
+         ->  Seq Scan on sitio s1  (cost=0.00..38.54 rows=128 width=22)
+               Filter: (entidad ~~ 'a%'::text)
+         ->  Materialize  (cost=0.00..39.04 rows=101 width=22)
+               ->  Seq Scan on sitio s2  (cost=0.00..38.54 rows=101 width=22)
+                     Filter: (entidad ~~ 'b%'::text)
+(8 rows)
+
+
+3-
+world=# create index indice_countrycode on sitio(countrycode);
+CREATE INDEX
+
+world=# \d indice_countrycode;
+        Index "public.indice_countrycode"
+   Column    |     Type     | Key? | Definition  
+-------------+--------------+------+-------------
+ countrycode | character(3) | yes  | countrycode
+btree, for table "public.sitio"
+
+
+4-
+Al crear el indice la busqueda la realiza al reves, y por cada entidad que empiece con la letra 'b' busca todas las entidades que empiece on la letra 'a' del mismo pais. Tambien se limita a mostrar los primeros 100 valores.
+
+world=# explain select * from sitio s1, sitio s2 where s1.countrycode = s2.countrycode and s1.entidad like 'a%' and s2.entidad like 'b%' limit 100;
+                                           QUERY PLAN                                           
+------------------------------------------------------------------------------------------------
+ Limit  (cost=0.28..3.26 rows=100 width=44)
+   ->  Nested Loop  (cost=0.28..195.97 rows=6564 width=44)
+         ->  Seq Scan on sitio s2  (cost=0.00..38.54 rows=101 width=22)
+               Filter: (entidad ~~ 'b%'::text)
+         ->  Index Scan using indice_countrycode on sitio s1  (cost=0.28..1.55 rows=1 width=22)
+               Index Cond: (countrycode = s2.countrycode)
+               Filter: (entidad ~~ 'a%'::text)
+(7 rows)
+
+world=# select * from sitio s1, sitio s2 where s1.countrycode = s2.countrycode and s1.entidad like 'a%' and s2.entidad like 'b%' limit 100;
+
+  id  |       entidad        | tipo_entidad | pais | countrycode | id | entidad | tipo_entidad | pais | countrycode 
+------+----------------------+--------------+------+-------------+----+---------+--------------+------+-------------
+    6 | amazon               | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+   49 | aliexpress           | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+   53 | apple                | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+   87 | alipay               | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+   91 | alibaba              | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  102 | ask                  | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  111 | adobe                | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  139 | amazonaws            | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  167 | aol                  | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  261 | americanexpress      | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  285 | archive              | org          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  309 | addthis              | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  318 | adexc                | net          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+  342 | accuweather          | com          | NaN  | USA         |  4 | baidu   | com          | NaN  | USA
+

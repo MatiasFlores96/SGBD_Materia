@@ -1,0 +1,79 @@
+3.3.1 
+//Listar los 10 usuarios que publicaron más tweets (ordenarlos de manera descendente por cantidad de tweets)
+
+> db.tweets.aggregate([
+                     { $group: { _id: "$user.name", cantidadTweets: {$sum:1}}},
+                     { $sort: {cantidadTweets:-1}},
+                     { $limit: 10 }
+
+                   ])
+
+{ "_id" : "chavez vive", "cantidadTweets" : 13 }
+{ "_id" : "CaraotaDigital", "cantidadTweets" : 11 }
+{ "_id" : "ana bertha malave ", "cantidadTweets" : 11 }
+{ "_id" : "Danielle RN 😻🐞🌹💖🌞🍃", "cantidadTweets" : 9 }
+{ "_id" : "Aura Jimenez", "cantidadTweets" : 9 }
+{ "_id" : "kay_12000", "cantidadTweets" : 8 }
+{ "_id" : "JORGE C. C. M.", "cantidadTweets" : 7 }
+{ "_id" : "Jubilee USA Network", "cantidadTweets" : 7 }
+{ "_id" : "Centauro", "cantidadTweets" : 6 }
+{ "_id" : ".", "cantidadTweets" : 6 }
+
+
+3.3.2
+//Listar por lenguaje la cantidad de followers del usuario con mayor cantidad de followers que publica en ese lenguaje
+
+#Con este trae para cada idioma el nombre de usuario con la mayor cantidad de followers y su numero.
+
+> db.tweets.aggregate([ { $group: { _id: {lenguaje: "$lang", usuario: "$user.name"}, followers: {$max:"$user.followers_count"}}},  { $sort: {followers: -1}},  { $group: {_id: "$_id.lenguaje", usuario: {$first:'$_id.usuario'}, followers: {$first:'$followers'}}},  { $sort:{followers: -1}} ])
+
+{ "_id" : "en", "usuario" : "Reuters Top News", "followers" : 20355622 }
+{ "_id" : "es", "usuario" : "Reuters Top News", "followers" : 20355466 }
+{ "_id" : "und", "usuario" : "Vogue España", "followers" : 2674157 }
+{ "_id" : "pt", "usuario" : "Guilherme", "followers" : 378388 }
+{ "_id" : "ro", "usuario" : "IOL News", "followers" : 309045 }
+{ "_id" : "fr", "usuario" : "FOX26Houston", "followers" : 301328 }
+{ "_id" : "ja", "usuario" : "天地人★アルデバラン★星花愛", "followers" : 74396 }
+{ "_id" : "ca", "usuario" : "Roca Editorial", "followers" : 59248 }
+{ "_id" : "nl", "usuario" : "Sportwereld.be", "followers" : 26585 }
+{ "_id" : "fi", "usuario" : "Henri Alen", "followers" : 25429 }
+{ "_id" : "de", "usuario" : "Trumps warrior girl", "followers" : 24338 }
+{ "_id" : "hi", "usuario" : "नमामिChowkidar️🍁🇮🇳", "followers" : 21257 }
+{ "_id" : "it", "usuario" : "Sunshine & Sass", "followers" : 14272 }
+{ "_id" : "tl", "usuario" : "GamerNaHardcore🎮", "followers" : 13252 }
+{ "_id" : "ar", "usuario" : "۩۞۩غادة تركي 🇸🇦MBS۩۞۩", "followers" : 11301 }
+{ "_id" : "in", "usuario" : "lot", "followers" : 10438 }
+{ "_id" : "ru", "usuario" : "Maxim Mironov", "followers" : 8718 }
+{ "_id" : "th", "usuario" : "B🍓", "followers" : 8715 }
+{ "_id" : "no", "usuario" : "Arne Storrønningen", "followers" : 7176 }
+{ "_id" : "hu", "usuario" : "Derek Mooney", "followers" : 4663 }
+
+
+#Esta sentencia trae todos los idiomas con la cantidad de followers maximo de cada uno
+
+> db.tweets.aggregate([
+			{ $group: { _id: {lenguaje: "$lang"}, followers:{$max:"$user.followers_count"}}}, 
+			{ $sort: {followers: -1}}])
+
+{ "_id" : { "lenguaje" : "en" }, "followers" : 20355622 }
+{ "_id" : { "lenguaje" : "es" }, "followers" : 20355466 }
+{ "_id" : { "lenguaje" : "und" }, "followers" : 2674157 }
+{ "_id" : { "lenguaje" : "pt" }, "followers" : 378388 }
+{ "_id" : { "lenguaje" : "ro" }, "followers" : 309045 }
+{ "_id" : { "lenguaje" : "fr" }, "followers" : 301328 }
+{ "_id" : { "lenguaje" : "ja" }, "followers" : 74396 }
+{ "_id" : { "lenguaje" : "ca" }, "followers" : 59248 }
+{ "_id" : { "lenguaje" : "nl" }, "followers" : 26585 }
+{ "_id" : { "lenguaje" : "fi" }, "followers" : 25429 }
+{ "_id" : { "lenguaje" : "de" }, "followers" : 24338 }
+{ "_id" : { "lenguaje" : "hi" }, "followers" : 21257 }
+{ "_id" : { "lenguaje" : "it" }, "followers" : 14272 }
+{ "_id" : { "lenguaje" : "tl" }, "followers" : 13252 }
+{ "_id" : { "lenguaje" : "ar" }, "followers" : 11301 }
+{ "_id" : { "lenguaje" : "in" }, "followers" : 10438 }
+{ "_id" : { "lenguaje" : "ru" }, "followers" : 8718 }
+{ "_id" : { "lenguaje" : "th" }, "followers" : 8715 }
+{ "_id" : { "lenguaje" : "no" }, "followers" : 7176 }
+{ "_id" : { "lenguaje" : "hu" }, "followers" : 4663 }
+
+

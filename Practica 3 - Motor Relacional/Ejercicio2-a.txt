@@ -1,0 +1,112 @@
+EJERCICIO 2 - Consultas en SQL simples sobre una sola tabla
+
+1-
+world=# select population from country where name = 'Argentina';
+ population 
+------------
+   37032000
+(1 row)
+
+2-
+world=# select continent from country group by continent;
+   continent   
+---------------
+ Asia
+ South America
+ North America
+ Oceania
+ Antarctica
+ Africa
+ Europe
+(7 rows)
+
+3-
+world=# select name from country where continent = 'South America' and population > '15000000';
+   name    
+-----------
+ Argentina
+ Brazil
+ Chile
+ Colombia
+ Peru
+ Venezuela
+(6 rows)
+
+4-
+world=# select name, gnp from country order by gnp desc limit 10;
+      name      |    gnp     
+----------------+------------
+ United States  | 8510700.00
+ Japan          | 3787042.00
+ Germany        | 2133367.00
+ France         | 1424285.00
+ United Kingdom | 1378330.00
+ Italy          | 1161755.00
+ China          |  982268.00
+ Brazil         |  776739.00
+ Canada         |  598862.00
+ Spain          |  553233.00
+(10 rows)
+
+5-
+world=# select governmentform, count(governmentform) from country group by governmentform order by count(governmentform) desc;
+                governmentform                | count 
+----------------------------------------------+-------
+ Republic                                     |   122
+ Constitutional Monarchy                      |    29
+ Federal Republic                             |    15
+ Dependent Territory of the UK                |    12
+ Monarchy                                     |     5
+ Constitutional Monarchy, Federation          |     4
+ Nonmetropolitan Territory of France          |     4
+ Overseas Department of France                |     4
+ Territory of Australia                       |     4
+ Nonmetropolitan Territory of New Zealand     |     3
+ Socialistic Republic                         |     3
+ US Territory                                 |     3
+ Commonwealth of the US                       |     2
+ Part of Denmark                              |     2
+ Islamic Republic                             |     2
+ Monarchy (Sultanate)                         |     2
+ Special Administrative Region of China       |     2
+ Dependent Territory of Norway                |     2
+ Nonmetropolitan Territory of The Netherlands |     2
+ Territorial Collectivity of France           |     2
+ Dependent Territory of the US                |     1
+ Co-administrated                             |     1
+ Parlementary Monarchy                        |     1
+ Administrated by the UN                      |     1
+ Federation                                   |     1
+ Emirate Federation                           |     1
+ Constitutional Monarchy (Emirate)            |     1
+ Parliamentary Coprincipality                 |     1
+ Autonomous Area                              |     1
+ People'sRepublic                             |     1
+ Monarchy (Emirate)                           |     1
+ Socialistic State                            |     1
+ Islamic Emirate                              |     1
+ Independent Church State                     |     1
+ Occupied by Marocco                          |     1
+(35 rows)
+
+6-
+world=# select continent, sum(surfacearea) from country group by continent order by sum(surfacearea) desc;
+   continent   |     sum     
+---------------+-------------
+ Asia          |  3.1881e+07
+ Africa        | 3.02504e+07
+ North America | 2.42145e+07
+ Europe        | 2.30491e+07
+ South America | 1.78649e+07
+ Antarctica    | 1.31321e+07
+ Oceania       | 8.56429e+06
+(7 rows)
+
+7-
+world=# select continent, count(name) from country where population > 20000000 group by continent having count(name) > 15;
+ continent | count 
+-----------+-------
+ Asia      |    21
+(1 row)
+
+
